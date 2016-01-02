@@ -15,9 +15,9 @@ function MakeGetRequest(url, params) {
         url += paramArr.join('&');
     }
     
-    var promise = new Promise((resolve, reject) => {
-        var request = protocol.get(url, (resp) => {
-            resp.on('data', data => {
+    var promise = new Promise(function (resolve, reject) {
+        var request = protocol.get(url, function (resp) {
+            resp.on('data',function (data) {
                 var str_data = '' + data;
                 try {
                     resolve(JSON.parse(str_data))

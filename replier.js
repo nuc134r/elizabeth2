@@ -26,22 +26,22 @@ function FormatUpdate(update) {
 }
 
 function Process(raw_updates) {
-    var updates = raw_updates.map(update => {
+    var updates = raw_updates.map(function(update) {
         return FormatUpdate(update);
     });
 
-    var messages = updates.filter(update => {
+    var messages = updates.filter(function (update) {
         return update.event === MESSAGE_EVENT && !(update.flags & OWN_MSG)
     });
 
-    messages.forEach(message => {
+    messages.forEach(function (message) {
         var response = bot.respond(message.text);
 
         messagesQueue.enqueue({ to: message.from_id, text: response, command: message.text });
     })
 }
 
-setInterval(() => {
+setInterval(function () {
     var message = messagesQueue.dequeue();
     
     if (message) {
@@ -62,14 +62,14 @@ setInterval(() => {
         }
 
         network.MakeApiRequest('messages.send', params)
-            .then((resp) => {
+            .then(function (resp) {
                 if (!resp.response) {
                     logger.log(resp);
                 } else {
                     logger.log('Answered on:');
                     logger.log(message);
                 }
-            }, (e) => {
+            }, function (e) {
                 logger.log('Error sending message');
                 messagesQueue.enqueue(message);
             });

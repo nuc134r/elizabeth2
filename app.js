@@ -14,14 +14,14 @@ var MakeLongpoolRequest = function (data) {
 }
 
 function ProcessGetServerResponse(data) {
-    if (!data.response) throw Error('Unexpected response');
+    if (!data.response) throw Error('Unexpected response: ' + JSON.stringify(data));
     logger.log('Got server(' + data.response.server + ')');
     return data.response;
 }
 
 function Listen(server) {
     MakeLongpoolRequest(server)
-        .then((data) => {
+        .then(function (data) {
             replier.process(data.updates);
             server.ts = data.ts;
             Listen(server);
@@ -30,7 +30,7 @@ function Listen(server) {
 }
 
 function Start() {
-    network.MakeApiRequest('messages.getLongPollServer')
+    network.MakeApiRequest('messages.getLongPollServer', {"captcha_sid": "391083320406", "captcha_key" : "hx7qxq2"})
         .then(ProcessGetServerResponse)
         .then(Listen)
         .catch(logger.log);

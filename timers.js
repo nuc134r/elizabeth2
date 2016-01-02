@@ -8,7 +8,7 @@ function DoIntervalThings() {
     var memory_used = (used / total) * 100;
     logger.log('Uptime: ' + process.uptime() + ' Memory: ' + Math.floor(memory_used) + '%');
     
-    network.MakeApiRequest('account.setOnline').then(() => {
+    network.MakeApiRequest('account.setOnline').then(function () {
         logger.log('Updated online status.')
     });
 }
