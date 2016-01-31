@@ -5,7 +5,7 @@ var logger = require('./logger');
 
 require('./timers');
 
-var MakeLongpoolRequest = function (data) {
+function MakeLongpoolRequest (data) {
     var url = 'https://' + data.server;
     var params = {
         "act": "a_check", "key": data.key, "ts": data.ts, "wait": 25, "mode": 2

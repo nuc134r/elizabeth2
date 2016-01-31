@@ -2,6 +2,7 @@ var http = require('http');
 var https = require('https');
 
 var logger = require('./logger');
+var config = require('./config');
 
 function MakeGetRequest(url, params) {
     var protocol = ~url.indexOf('https') ? https : http;
@@ -16,13 +17,13 @@ function MakeGetRequest(url, params) {
     }
     
     var promise = new Promise(function (resolve, reject) {
-        logger.log('GET >> ' + url);
+        config.log_requests && logger.log('GET >> ' + url);
         var request = protocol.get(url, function (resp) {
             resp.on('data',function (data) {
                 var str_data = '' + data;
                 try {
                     var parsed = JSON.parse(str_data);
-                    logger.log('    << ' + str_data);
+                    config.log_requests && logger.log('    << ' + str_data);
                     resolve(parsed);
                 } catch (e) {
                     logger.log('Unexpected reply:');

@@ -68,8 +68,7 @@ setInterval(function () {
                 if (!resp.response) {
                     logger.log(resp);
                 } else {
-                    logger.log('Answered on:');
-                    logger.log(message);
+                    logger.log('Answered on: ' + JSON.stringify(message));
                 }
             }, function (e) {
                 logger.log('Error sending message');
