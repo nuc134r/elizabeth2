@@ -22,7 +22,7 @@ function log(message) {
         message.replace(config.token, '');
         console.log(timestamp(), message);
     } else {
-        console.log(timestamp(), util.inspect(message));
+        console.log(timestamp(), JSON.stringify(message));
     }
 }
 

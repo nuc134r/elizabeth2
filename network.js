@@ -16,11 +16,14 @@ function MakeGetRequest(url, params) {
     }
     
     var promise = new Promise(function (resolve, reject) {
+        logger.log('GET >> ' + url);
         var request = protocol.get(url, function (resp) {
             resp.on('data',function (data) {
                 var str_data = '' + data;
                 try {
-                    resolve(JSON.parse(str_data))
+                    var parsed = JSON.parse(str_data);
+                    logger.log('    << ' + str_data);
+                    resolve(parsed);
                 } catch (e) {
                     logger.log('Unexpected reply:');
                     logger.log(str_data);

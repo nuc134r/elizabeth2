@@ -37,7 +37,9 @@ function Process(raw_updates) {
     messages.forEach(function (message) {
         var response = bot.respond(message.text);
 
-        messagesQueue.enqueue({ to: message.from_id, text: response, command: message.text });
+        if (response) {
+            messagesQueue.enqueue({ to: message.from_id, text: response, command: message.text });
+        }
     })
 }
 
