@@ -13,7 +13,7 @@ function resolveCommand(words, cmnds) {
     cmnds = cmnds || commands;
 
     var command = null;
-    words.forEach(function (word) {
+    words.forEach(word => {
         if (!command) {
             command = cmnds[word];
         }

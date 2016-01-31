@@ -26,24 +26,24 @@ function FormatUpdate(update) {
 }
 
 function Process(raw_updates) {
-    var updates = raw_updates.map(function(update) {
-        return FormatUpdate(update);
+    var updates = raw_updates.map((update) => FormatUpdate(update));
+
+    var messages = updates.filter((update) => {
+        return update.event === MESSAGE_EVENT && !(update.flags & OWN_MSG);
     });
 
-    var messages = updates.filter(function (update) {
-        return update.event === MESSAGE_EVENT && !(update.flags & OWN_MSG)
-    });
-
-    messages.forEach(function (message) {
+    messages.forEach((message) => {
         var response = bot.respond(message.text);
 
         if (response) {
             messagesQueue.enqueue({ to: message.from_id, text: response, command: message.text });
         }
-    })
+        
+        network.MakeApiRequest('messages.markAsRead', {message_ids : message.id, peer_id : message.from_id}).then();
+    });
 }
 
-setInterval(function () {
+setInterval(() => {
     var message = messagesQueue.dequeue();
     
     if (message) {
@@ -64,13 +64,13 @@ setInterval(function () {
         }
 
         network.MakeApiRequest('messages.send', params)
-            .then(function (resp) {
+            .then((resp) => {
                 if (!resp.response) {
                     logger.log(resp);
                 } else {
                     logger.log('Answered on: ' + JSON.stringify(message));
                 }
-            }, function (e) {
+            }, (e) => {
                 logger.log('Error sending message');
                 messagesQueue.enqueue(message);
             });

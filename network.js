@@ -16,7 +16,7 @@ function MakeGetRequest(url, params) {
         url += paramArr.join('&');
     }
     
-    var promise = new Promise(function (resolve, reject) {
+    var promise = new Promise((resolve, reject) => {
         config.log_requests && logger.log('GET >> ' + url);
         var request = protocol.get(url, function (resp) {
             resp.on('data',function (data) {

@@ -21,7 +21,7 @@ function ProcessGetServerResponse(data) {
 
 function Listen(server) {
     MakeLongpoolRequest(server)
-        .then(function (data) {
+        .then(data => {
             replier.process(data.updates);
             server.ts = data.ts;
             Listen(server);
