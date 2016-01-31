@@ -1,12 +1,12 @@
 {
 	"name": "elizabeth2",
-	"version": "0.0.9",
+	"version": "2.0.0",
 	"description": "A chat bot for VK social network",
 	"author": "nuc134r",
 	"main": "app.js",
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/nuc134r/elizabeth2"
 	},
 	"dependencies": {
 		"moment": "*"
