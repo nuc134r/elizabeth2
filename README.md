@@ -29,7 +29,7 @@ $ node app.js
 ```
 
 # Как работает?
-Модуль commands.js экспортирует объект любой степени вложенности `list`:
+Модуль `commands.js` экспортирует объект любой степени вложенности `list`:
 ```
 module.exports.list = {
   default: 'Unknown command',         // строка
