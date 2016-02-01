@@ -17,12 +17,12 @@ function MakeGetRequest(url, params) {
     }
 
     var promise = new Promise((resolve, reject) => {
-        config.log_requests && logger.log('>> ' + url);
+        config.log_requests && logger.log('\x1b[36m>> ' + url + '\x1b[0m');
         var request = protocol.get(url, function(resp) {
             resp.on('data', function(data) {
-                var str_data = data.toString();
+                var str_data = data.toString().trim();
                 try {
-                    config.log_requests && logger.log('<< ' + str_data);
+                    config.log_requests && logger.log('\x1b[35m<< ' + str_data + '\x1b[0m');
                     var parsed = JSON.parse(str_data);
                     resolve(parsed);
                 }

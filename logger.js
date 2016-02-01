@@ -16,17 +16,10 @@ function timestamp() {
 }
 
 function log(message) {
-    var dim = ~message.indexOf("<<") || ~message.indexOf(">>");
-    
     if (typeof message !== 'string') message = JSON.stringify(message);
     
     message = message.replace(config.token, '#####');
-    
-    if (dim) {
-        console.log(timestamp(), '\x1b[35m' + message + '\x1b[0m');
-    } else {
-        console.log(timestamp(), message);
-    }
+    console.log(timestamp(), message);
 }
 
 module.exports.log = log;
