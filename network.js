@@ -7,7 +7,7 @@ var config = require('./config');
 function MakeGetRequest(url, params) {
     var protocol = ~url.indexOf('https') ? https : http;
     var paramArr = [];
-    
+
     if (params) {
         url += '?';
         for (var param in params) {
@@ -15,27 +15,26 @@ function MakeGetRequest(url, params) {
         }
         url += paramArr.join('&');
     }
-    
+
     var promise = new Promise((resolve, reject) => {
-        config.log_requests && logger.log('GET >> ' + url);
-        var request = protocol.get(url, function (resp) {
-            resp.on('data',function (data) {
-                var str_data = '' + data;
+        config.log_requests && logger.log('>> ' + url);
+        var request = protocol.get(url, function(resp) {
+            resp.on('data', function(data) {
+                var str_data = data.toString();
                 try {
+                    config.log_requests && logger.log('<< ' + str_data);
                     var parsed = JSON.parse(str_data);
-                    config.log_requests && logger.log('    << ' + str_data);
                     resolve(parsed);
-                } catch (e) {
-                    logger.log('Unexpected reply:');
-                    logger.log(str_data);
-                    reject('Parse error');
+                }
+                catch (e) {
+                    reject({ code: 'PARSE_ERR', data: str_data });
                 }
             });
-            resp.on('error', reject);
+            resp.on('error', (e) => reject({ code: 'RESP_ERR'}));
         });
-        request.on('error', reject);
+        request.on('error', (e) => reject({ code: 'REQ_ERR', data: e }));
     });
-    
+
     return promise;
 }
 

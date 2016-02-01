@@ -48,7 +48,7 @@ setInterval(() => {
     
     if (message) {
         if (message.text === last_response) {
-            message.text += ' &#128522;';
+            message.text += ' 😊';
         }
         
         last_response = message.text;
@@ -68,7 +68,7 @@ setInterval(() => {
                 if (!resp.response) {
                     logger.log(resp);
                 } else {
-                    logger.log('Answered on: ' + JSON.stringify(message));
+                    logger.log('Answered on \'' + message.command + '\' to ' + message.to);
                 }
             }, (e) => {
                 logger.log('Error sending message');

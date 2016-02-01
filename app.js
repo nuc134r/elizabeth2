@@ -2,6 +2,7 @@ var network = require('./network');
 var replier = require('./replier');
 
 var logger = require('./logger');
+var handle = require('./handle');
 
 require('./timers');
 
@@ -26,14 +27,18 @@ function Listen(server) {
             server.ts = data.ts;
             Listen(server);
         })
-        .catch(logger.log);
+        .catch((error) => {
+            handle(error).then(Listen(server));
+        });
 }
 
 function Start() {
     network.MakeApiRequest('messages.getLongPollServer', {"captcha_sid": "391083320406", "captcha_key" : "hx7qxq2"})
         .then(ProcessGetServerResponse)
         .then(Listen)
-        .catch(logger.log);
+        .catch((error) => {
+            handle(error).then(Start);
+        });
 }
 
 Start();

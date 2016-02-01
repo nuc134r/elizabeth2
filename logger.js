@@ -1,8 +1,6 @@
 var moment = require('moment');
 var config = require('./config');
 
-var util = require('util');
-
 var last_stamp = null;
 const stamp_format = 'DD/MM/YYYY HH:mm:ss';
 const stamp_empty = '                   ';
@@ -18,11 +16,16 @@ function timestamp() {
 }
 
 function log(message) {
-    if (typeof message === 'string') {
-        message.replace(config.token, '');
-        console.log(timestamp(), message);
+    var dim = ~message.indexOf("<<") || ~message.indexOf(">>");
+    
+    if (typeof message !== 'string') message = JSON.stringify(message);
+    
+    message = message.replace(config.token, '#####');
+    
+    if (dim) {
+        console.log(timestamp(), '\x1b[35m' + message + '\x1b[0m');
     } else {
-        console.log(timestamp(), JSON.stringify(message));
+        console.log(timestamp(), message);
     }
 }
 
